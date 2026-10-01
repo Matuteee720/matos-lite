@@ -30,7 +30,7 @@ jobs:
           sudo lb clean --purge
           sudo lb config \
             --architectures amd64 \
-            --distribution bookworn \
+            --distribution bookworm \
             --binary-images iso-hybrid \
             --archive-areas "main contrib non-free non-free-firmware"
           sudo lb build
