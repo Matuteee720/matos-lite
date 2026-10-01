@@ -1,0 +1,46 @@
+# entortnos de escritorio
+cinnamon-core
+lxqt
+xfce4
+lightdm
+lightdm-gtk-greeter
+xfce4-terminal
+
+# firmware y controladores para hardware
+firmware-linux
+firmware-linux-nonfree
+firmware-realtek
+firmware-atheros
+firmware-iwlwifi
+
+#multimedia, diseño, y visor de fotos
+vlc
+gimp
+eog
+audacity
+flameshot
+
+# software de oficina completa
+libreoffice
+libreoffice-gnome
+libreoffice-l10n-es
+
+# navegacion y utilidades
+firefox-esr
+firefox-esr-l10n-es
+galculator
+featherpad
+nano
+htop
+nemo
+pcmanfm-qt
+
+# soporte de compresion
+p7zip-full
+unrar
+zip
+unzip
+
+#instalador grafico
+calamares
+calamares-settings-debian
