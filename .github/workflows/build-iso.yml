@@ -18,7 +18,7 @@ jobs:
 
       - name: actualizar scripts de debootstrap para bookworm
         run: |
-          sudo ln -sf sid /usr/share/debootstrap/scripts/bookworn || true
+          sudo ln -sf sid /usr/share/debootstrap/scripts/bookworm || true
 
       - name: descargar e integrar peazip
         run: |
