@@ -14,17 +14,11 @@ jobs:
       - name: instalar dependencias de compilacion
         run: |
           sudo apt-get update
-          sudo apt-get install -y live-build debootstrap wget git
+          sudo apt-get install -y live-build debootstrap wget 
 
       - name: actualizar scripts de debootstrap para bookworm
         run: |
-          git clone https://salsa.debian.org/instaler-team/debootstrap.git /tmp/debootstrap
-          sudo cp -r /tmp/debootstrap/scripts/* /usr/share/debootstrap/scripts/
-
-      - name: instalar dependencias de compilacion
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y live-build debootstrap wget
+          sudo ln -sf sid /usr/share/debootstrap/scripts/bookworn || true
 
       - name: descargar e integrar peazip
         run: |
