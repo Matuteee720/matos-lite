@@ -1,0 +1,13 @@
+#!/bin/sh
+
+lb config noauto \
+    --mode debian \
+    --distribution bookworn \
+    --architectures amd64 \
+    --archive-areas "main contrib non-free non-free-firmware" \
+    --debian-installer live \
+    --debian-installer-gui true \
+    --bootloader syslinux,grub-efi \
+    --win32-loader false \
+    --package-lists "desktop" \
+    "${@}"
