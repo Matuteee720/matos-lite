@@ -1,0 +1,29 @@
+name: compilar iso debian lite
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: descargar codigo del repositorio
+        uses: actions/checkout@v4
+
+      - name: instalar dependencias de compilacion
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y live-build debootstrap wget
+
+      - name: descargar e interpretar peazip
+        run: |
+          sudo lb clean
+          sudo lb config
+          sudo lb build
+
+      - name: subir la iso a github artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: mat-os-lite-amd64.iso
+          path: "*.iso"
