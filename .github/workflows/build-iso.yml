@@ -35,8 +35,9 @@ jobs:
             --archive-areas "main contrib non-free non-free-firmware" \
             --keyring-packages debian-archive-keyring \
             --mode debian \
-            --apt-indices false \
+            --apt-indices none \
             --security false \
+            --updates false \
             --mirror-bootstrap "http://deb.debian.org/debian/" \
             --mirror-chroot "http://deb.debian.org/debian/" \
             --mirror-binary "http://deb.debian.org/debian/" 
