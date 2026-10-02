@@ -11,14 +11,14 @@ jobs:
       - name: descargar codigo del repositorio
         uses: actions/checkout@v4
 
-      - name: instalar dependencias de compilacion
+      - name: instalar dependencias de compilacion 
         run: |
           sudo apt-get update
           sudo apt-get install -y live-build debootstrap wget debian-archive-keyring
 
-      - name: actualizar scripts de debootstrap para bookworm
+      - name: actualizar scripts de debootstrap para trixie
         run: |
-          sudo ln -sf sid /usr/share/debootstrap/scripts/bookworm || true
+          sudo ln -sf sid /usr/share/debootstrap/scripts/trixie || true
 
       - name: descargar e integrar peazip
         run: |
@@ -30,17 +30,16 @@ jobs:
           sudo lb clean --purge
           sudo lb config \
             --architectures amd64 \
-            --distribution bookworm \
+            --distribution trixie \
             --binary-images iso-hybrid \
             --archive-areas "main contrib non-free non-free-firmware" \
             --keyring-packages debian-archive-keyring \
             --mode debian \
+            --security false \
+            --update false \
             --mirror-bootstrap "http://deb.debian.org/debian/" \
             --mirror-chroot "http://deb.debian.org/debian/" \
-            --mirror-binary "http://deb.debian.org/debian/" \
-            --security true \
-            --mirror-chroot-security "http://security.debian.org/debian-security" \
-            --mirror-binary-security "http://security.debian.org/debian-security"
+            --mirror-binary "http://deb.debian.org/debian/" 
           sudo lb build
           sudo chmod 644 *.iso
           
