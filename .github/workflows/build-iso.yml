@@ -36,7 +36,6 @@ jobs:
             --keyring-packages debian-archive-keyring \
             --mode debian \
             --security false \
-            --updates false \
             --mirror-bootstrap "http://deb.debian.org/debian/" \
             --mirror-chroot "http://deb.debian.org/debian/" \
             --mirror-binary "http://deb.debian.org/debian/" 
