@@ -8,15 +8,24 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: descargar codigo del repositorio
+      - name: Checkout del repositorio
         uses: actions/checkout@v4
 
-      - name: instalar dependencias de compilacion 
+      - name: Instalar y preparar llaves de Debian
         run: |
           sudo apt-get update
-          sudo apt-get install -y live-build debootstrap live-boot
+          sudo apt-get install -y live-build debootstrap debian-archive-keyring
           
-      - name: Limpoiar entorno anterior
+          # SOLUCIÓN AL ERROR DE KEYRING: Enlazar las llaves de Debian a la ruta del sistema
+          sudo mkdir -p /usr/share/keyrings
+          sudo ln -sf /usr/share/keyrings/debian-archive-keyring.gpg /usr/share/keyrings/debian-keyring.gpg
+          
+          # Enlazar el script para que reconozca la distribución Trixie
+          if [ ! -e /usr/share/debootstrap/scripts/trixie ]; then
+            sudo ln -s sid /usr/share/debootstrap/scripts/trixie
+          fi
+
+      - name: Limpiar compilaciones previas
         run: |
           sudo lb clean --purge
 
@@ -25,7 +34,7 @@ jobs:
           mkdir -p config/packages.chroot
           wget --nno-check-certificate https://github.com/peazip/PeaZip/releases/download/11.3.0/peazip_11.3.0.LINUX.GTK2-1_amd64.deb -O config/packages.chroot/peazip.deb || true
 
-      - name: configurar y generar la imagen iso
+      - name: Configurar Live Build (Espejos Forzados)
         run: |
           sudo lb config \
             --architectures amd64 \
@@ -39,6 +48,10 @@ jobs:
             --mirror-bootstrap "http://debian.org" \
             --mirror-chroot "http://debian.org" \
             --mirror-binary "http://debian.org"
+
+      - name: Compilar la ISO
+        run: |
+          sudo lb build
 
       - name: Compilar la ISO (Build)
         run: |
