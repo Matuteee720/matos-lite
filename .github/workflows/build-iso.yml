@@ -14,11 +14,11 @@ jobs:
       - name: instalar dependencias de compilacion 
         run: |
           sudo apt-get update
-          sudo apt-get install -y live-build debootstrap wget debian-archive-keyring
-
-      - name: actualizar scripts de debootstrap para trixie
+          sudo apt-get install -y live-build debootstrap live-boot
+          
+      - name: Limpoiar entorno anterior
         run: |
-          sudo ln -sf sid /usr/share/debootstrap/scripts/trixie || true
+          sudo lb clean --purge
 
       - name: descargar e integrar peazip
         run: |
@@ -27,7 +27,6 @@ jobs:
 
       - name: configurar y generar la imagen iso
         run: |
-          sudo lb clean --purge
           sudo lb config \
             --architectures amd64 \
             --distribution trixie \
@@ -37,15 +36,16 @@ jobs:
             --mode debian \
             --apt-indices none \
             --security false \
-            --updates false \
-            --mirror-bootstrap "http://deb.debian.org/debian/" \
-            --mirror-chroot "http://deb.debian.org/debian/" \
-            --mirror-binary "http://deb.debian.org/debian/" 
+            --mirror-bootstrap "http://debian.org" \
+            --mirror-chroot "http://debian.org" \
+            --mirror-binary "http://debian.org"
+
+      - name: Compilar la ISO (Build)
+        run: |
           sudo lb build
-          sudo chmod 644 *.iso
-          
-      - name: subir la iso a github artifacts
+      - name: Subir ISO como artefacto de GitHub
         uses: actions/upload-artifact@v4
         with:
           name: mat-os-lite-amd64.iso
           path: "*.iso"
+          if-no-files-found: error
